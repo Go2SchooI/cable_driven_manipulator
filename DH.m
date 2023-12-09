@@ -19,16 +19,16 @@ p_target = robot_modified.fkine(theta_target);
 q = rad2deg(robot_modified.ikine(p_target));
 %% 逆运动学中雅可比矩阵求解较为复杂，暂时调用Robotics Toolbox
 
-N = 10;
+N = 1;
 x_target = p_target.t';
 x_ = zeros(1,3);
 e = zeros(1,6);
 eplot = zeros(1,N);
-theta = [deg2rad(19.8), 0, 0, 0, 0, 0];
+theta = [0, 0, 0, 0, 0, 0];
 
 for j = 1 : N
     %平移    
-%     p = fkine(theta);
+    p1 = fkine(theta);
 %     x_(1) = p(4);
 %     x_(2) = p(8);
 %     x_(3) = p(12);

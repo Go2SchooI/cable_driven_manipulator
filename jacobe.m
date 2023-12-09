@@ -8,9 +8,7 @@ J_pi = zeros(3,1);
 J_oi = zeros(3,1);
 
 for iminus1 = 1:6
-    
-    T_iminus1 = T_iminus1 * trans(theta(iminus1),iminus1);
-    
+ 
     Z_iminus1(1) = T_iminus1(3);
     Z_iminus1(2) = T_iminus1(7);
     Z_iminus1(3) = T_iminus1(11);
@@ -18,6 +16,8 @@ for iminus1 = 1:6
     
     J_pi = cross(Z_iminus1, p_e - P_iminus1);
     J_oi = Z_iminus1;
+    
+    T_iminus1 = T_iminus1 * trans(theta(iminus1),iminus1);
     
     J_(1,iminus1) = J_pi(1,1);
     J_(2,iminus1) = J_pi(2,1);
