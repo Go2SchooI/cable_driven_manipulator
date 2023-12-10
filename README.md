@@ -1,1 +1,1 @@
-# cable_driven_manipulator
+Algorithm validation using PUMA560 as an example, including forward kinematics, inverse kinematics, Jacobi matrices, etc. The code is abbreviated as it is only used for feasibility checking and will be optimised at a later stage.
