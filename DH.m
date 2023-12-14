@@ -17,7 +17,7 @@ theta_target = [deg2rad(19.8), deg2rad(-33.6), deg2rad(-13.6), deg2rad(7.2), deg
 
 p_target = robot_modified.fkine(theta_target);
 q = rad2deg(robot_modified.ikine(p_target));
-%% 逆运动学中雅可比矩阵求解较为复杂，暂时调用Robotics Toolbox
+%% 正逆运动学均可调用自己编写库
 
 N = 1;
 x_target = p_target.t';
@@ -26,15 +26,14 @@ e = zeros(1,6);
 eplot = zeros(1,N);
 theta = [0, 0, 0, 0, 0, 0];
 
-for j = 1 : N
+for j = 1 : 1000
     %平移    
-    p1 = fkine(theta);
-%     x_(1) = p(4);
-%     x_(2) = p(8);
-%     x_(3) = p(12);
-%     e(1:3) = x_target - x_;
-    p = robot_modified.fkine(theta);
-    x_(1:3) = p.t';
+    p = fkine(theta);
+    x_(1) = p(1,4);
+    x_(2) = p(2,4);
+    x_(3) = p(3,4);
+%     p = robot_modified.fkine(theta);
+%     x_(1:3) = p.t';
     e(1:3) = x_target - x_;
     
     %旋转
@@ -44,8 +43,8 @@ for j = 1 : N
     e(4:6) = thn * V;
     eplot(j) = e * e';
    
-    Jaco = jacob0(robot_modified, theta);
-    Jaco1 = jacobe(theta);
+%     Jaco = jacob0(robot_modified, theta);
+    Jaco = jacobe(theta);
     dq = Jaco' * e';
     dq = 0.05 * dq;
 
