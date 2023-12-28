@@ -26,6 +26,8 @@ e = zeros(1,6);
 eplot = zeros(1,N);
 theta = [0, 0, 0, 0, 0, 0];
 
+use_Pseudo = 0;
+
 for j = 1 : 1000
     %平移    
     p = fkine(theta);
@@ -45,7 +47,13 @@ for j = 1 : 1000
    
 %     Jaco = jacob0(robot_modified, theta);
     Jaco = jacobe(theta);
-    dq = Jaco' * e';
+
+    if (use_Pseudo)
+        dq = Jaco' \ (Jaco * Jaco') * e';
+    else
+        dq = Jaco' * e';
+    end
+    
     dq = 0.05 * dq;
 
     theta = theta + dq';
