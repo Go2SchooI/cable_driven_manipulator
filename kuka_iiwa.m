@@ -29,7 +29,7 @@ e = zeros(1,6);
 eplot = zeros(1,N);
 theta = zeros(1,robot_modified.n);
 
-use_Pseudo = 0;
+use_Pseudo = 1;
 for j = 1 : N
     %平移    
     p = fkine(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
