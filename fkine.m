@@ -1,9 +1,9 @@
 %% %% 正运动学手搓好使
-function[T06] = fkine(theta)
-T06 = eye(4);
+function[T0n] = fkine(theta,n,alpha,a,d)
+T0n = eye(4);
 
-for k = 1:6
-    T06 = T06 * trans(theta(k),k);
+for k = 1:n
+    T0n = T0n * trans(theta,k,alpha,a,d);
 end
     
 end

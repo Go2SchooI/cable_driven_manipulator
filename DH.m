@@ -19,7 +19,7 @@ p_target = robot_modified.fkine(theta_target);
 q = rad2deg(robot_modified.ikine(p_target));
 %% 正逆运动学均可调用自己编写库
 
-N = 1;
+N = 4;
 x_target = p_target.t';
 x_ = zeros(1,3);
 e = zeros(1,6);
@@ -27,10 +27,10 @@ eplot = zeros(1,N);
 theta = [0, 0, 0, 0, 0, 0];
 
 use_Pseudo = 0;
-
-for j = 1 : 1000
+NNN = robot_modified.n;
+for j = 1 : N
     %平移    
-    p = fkine(theta);
+    p = fkine(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
     x_(1) = p(1,4);
     x_(2) = p(2,4);
     x_(3) = p(3,4);
@@ -46,8 +46,7 @@ for j = 1 : 1000
     eplot(j) = e * e';
    
 %     Jaco = jacob0(robot_modified, theta);
-    Jaco = jacobe(theta);
-
+    Jaco = jacobe(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
     if (use_Pseudo)
         dq = Jaco' \ (Jaco * Jaco') * e';
     else

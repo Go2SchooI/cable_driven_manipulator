@@ -1,15 +1,15 @@
-function[J_] = jacobe(theta)
-p_e = transl(fkine(theta));
-J_ = zeros(6,6);
+function[J_] = jacobe(theta,n,alpha,a,d)
+p_e = transl(fkine(theta,n,alpha,a,d));
+J_ = zeros(6,n);
 T_iminus1 = eye(4);
 Z_iminus1 = zeros(3,1);
 P_iminus1 = zeros(3,1);
 J_pi = zeros(3,1);
 J_oi = zeros(3,1);
 
-for iminus1 = 1:6
+for iminus1 = 1:n
    
-    T_iminus1 = T_iminus1 * trans(theta(iminus1),iminus1);
+    T_iminus1 = T_iminus1 * trans(theta,iminus1,alpha,a,d);
       
     Z_iminus1(1) = T_iminus1(1,3);
     Z_iminus1(2) = T_iminus1(2,3);
