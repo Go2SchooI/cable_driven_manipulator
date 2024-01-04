@@ -19,7 +19,7 @@ L6 =  Link([ 0,    0,      0,      -pi/2,    0], 'modified');
 L7 =  Link([ 0,    0.126,  0,       pi/2,    0], 'modified');
 robot_modified = SerialLink([L1,L2,L3,L4,L5,L6,L7]); 
 robot_modified.display();  
-robot_modified.teach([0 0 0 0 0 0 0]);
+% robot_modified.teach([0 0 0 0 0 0 0]);
 
 theta_target = [deg2rad(19.8), deg2rad(-33.6), deg2rad(-13.6), deg2rad(7.2), deg2rad(-17.2), deg2rad(37.2), deg2rad(-17.2)];
 
@@ -28,7 +28,7 @@ q = rad2deg(robot_modified.ikine(p_target));
 
 %% 正逆运动学均可调用自己编写库
 
-N = 400;
+N = 1000;
 x_target = p_target.t';
 x_ = zeros(1,3);
 e = zeros(1,6);
@@ -77,6 +77,7 @@ for j = 1 : N
 end 
 
 thetadeg = rad2deg(theta);
+robot_modified.teach(theta);
 %% 
 
 figure();
