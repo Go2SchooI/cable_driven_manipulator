@@ -1,6 +1,6 @@
 wc = 30;
-lc = 85.75;
-ho = 4.84;
+lc = 85.5;
+ho = 5;
 hc = (lc * lc - wc * wc) ^ 0.5;
 
 N = 1000;
@@ -11,6 +11,9 @@ denominator = zeros(1,N);
 value1 = zeros(1,N);
 value2 = zeros(1,N);
 value3 = zeros(1,N);
+
+max_r = 0;
+min_r = 100;
 
 for k = 1:N
      phi(k) = k * 45 / N;
@@ -28,7 +31,15 @@ for k = 1:N
     denominator(k) = cos(deg2rad(phi(k))) * (1 + hc^2/lc/lc * tan(deg2rad(phi(k)))^2);
 
     r(k) = numerator(k) / denominator(k);
+    if(r(k) > max_r)
+        max_r = r(k);
+    end
+    
+    if(r(k) < min_r)
+        min_r = r(k);
+    end    
 end
 
+max_error = max_r - min_r;
 figure();
 plot(phi,r)
