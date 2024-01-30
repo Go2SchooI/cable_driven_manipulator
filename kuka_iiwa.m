@@ -28,21 +28,32 @@ q = rad2deg(robot_modified.ikine(p_target));
 
 %% 正逆运动学均可调用自己编写库
 
-N = 50;
+N = 20;
+j = 0;
+
 x_target = p_target.t';
 x_ = zeros(1,3);
-e = zeros(1,6);
+
+e = ones(1,6);
 eplot = zeros(1,N);
+
 theta = zeros(1,robot_modified.n);
+local_opt = zeros(7,N);
 
 use_Pseudo = 1;
 use_DLS = 0;
 use_GPM = 1;
 
-gpm_k = zeros(1,N);
+% gpm_k = ones(1,N);
 lamda = 0.1;
 
-for j = 1 : N
+while (norm(e) > 0.0001)
+    j = j + 1;
+    
+    if(j > N)
+        break
+    end
+    
     %平移    
     p = fkine(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
     x_(1) = p(1,4);
@@ -67,12 +78,13 @@ for j = 1 : N
             Jaco_dls = Jaco' * pinv(JtJ + lamda * lamda * eye(6));
             dq = Jaco_dls * e';
         elseif(use_GPM)
-            % assume theta4 has max as 90 and min as 60
             Jaco_pinv = Jaco' * pinv(JtJ);   
-            gradient_H = [0 0 0 -(rad2deg(theta(4))-75)/900 0 0 0];
-            gpm_k(j) = lamda * norm(Jaco_pinv * e') / norm((eye(7) - Jaco_pinv * Jaco) * gradient_H');
-            local_opt = gpm_k(j) * (eye(7) - Jaco_pinv * Jaco) * gradient_H';
-            dq = Jaco_pinv * e' + local_opt;
+            % assume theta5 has max as pi/2 and min as pi/3
+            gradient_H = [0 0 0 0 -(theta(5)-5/12*pi)/pi/pi*36 0 0];
+            gpm_k = 0.1;
+%              gpm_k = lamda * norm(Jaco_pinv * e') / norm((eye(7) - Jaco_pinv * Jaco) * gradient_H');
+            local_opt(:,j) = gpm_k * (eye(7) - Jaco_pinv * Jaco) * gradient_H';
+            dq = Jaco_pinv * e' + local_opt(:,j);
         else
             Jaco_pinv = Jaco' * pinv(JtJ);
             dq = Jaco_pinv * e';
@@ -80,8 +92,6 @@ for j = 1 : N
     else
         dq = Jaco' * e';
     end
-    
-    dq = 1 * dq;
 
     theta = theta + dq';
 end 
