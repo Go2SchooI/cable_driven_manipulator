@@ -1,4 +1,5 @@
 function[T_XY] = trans(theta,k,alpha,a,d)
+
 T_XY = eye(4);
 
 T_XY_1 = cos(theta(k));

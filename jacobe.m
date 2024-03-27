@@ -1,4 +1,5 @@
 function[J_] = jacobe(theta,n,alpha,a,d)
+
 p_e = transl(fkine(theta,n,alpha,a,d));
 J_ = zeros(6,n);
 T_iminus1 = eye(4);
