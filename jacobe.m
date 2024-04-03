@@ -1,6 +1,6 @@
-function[J_] = jacobe(theta,n,alpha,a,d)
+function[J_] = jacobe(theta,n,alpha,a,d,offset)
 
-p_e = transl(fkine(theta,n,alpha,a,d));
+p_e = transl(fkine(theta,n,alpha,a,d,offset));
 J_ = zeros(6,n);
 T_iminus1 = eye(4);
 Z_iminus1 = zeros(3,1);

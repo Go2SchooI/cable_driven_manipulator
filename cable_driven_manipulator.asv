@@ -26,7 +26,7 @@ L7 =  Link('revolute', 'd',0,     'a',0.095,'alpha',0,      'offset',pi/2,  'sta
 L8 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
 L9 =  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
 
-L10=  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
+L10=  Link('revolute', 'd',0.07,  'a',0,    'alpha',0,      'offset',0,     'standard');
 
 cable_driven = SerialLink([L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10], 'name', 'cdm'); 
 cable_driven.display();  
@@ -44,10 +44,10 @@ for k = 1:N_f
     end
     
     theta_f(1) = 0;
-    
+
     theta_f(5) = pi/2 * rand();
     theta_f(6) = theta_f(5);
-  
+    
     theta_f(8) = - pi/4 + 2 * pi/4 * rand();
     theta_f(9) = theta_f(8);
     theta_f(10) = -theta_f(7);
@@ -61,16 +61,18 @@ end
 %% 正逆运动学均可调用自己编写库
 
 theta_target = theta_f;
-% cable_driven.teach(theta_target);
+cable_driven.teach(theta_target);
 p_target = fkine(theta_target, cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d, cable_driven.offset);
-[theta,eplot] = (c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
-    cable_driven.offset, p_target, 0.0001, 2, 100));
-
+pp = cable_driven.fkine(theta_target);
+% 
+% [theta,eplot] = (c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
+%     cable_driven.offset, p_target, 0.0001, 2, 1));
+% 
 % cable_driven.teach(theta);
 
 %% 图形输出
 
-figure();
-plot(eplot)
+% figure();
+% plot(eplot)
 figure();
 scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
