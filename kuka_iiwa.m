@@ -19,7 +19,7 @@ p_target = robot_modified.fkine(theta_target);
 q = rad2deg(robot_modified.ikine(p_target));
 
 %% 正逆运动学均可调用自己编写库
-N = 20;
+N = 200;
 j = 0;
 
 x_target = p_target.t';
@@ -47,7 +47,7 @@ while (norm(e) > 0.0001)
     end
     
     %平移    
-    p = fkine(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
+    p = fkine(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d, robot_modified.offset);
     x_(1) = p(1,4);
     x_(2) = p(2,4);
     x_(3) = p(3,4);
@@ -61,7 +61,7 @@ while (norm(e) > 0.0001)
    
    %雅可比矩阵计算
 %     Jaco = jacob0(robot_modified, theta);
-    Jaco = jacobe(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d);
+    Jaco = jacobe(theta, robot_modified.n, robot_modified.alpha, robot_modified.a, robot_modified.d, robot_modified.offset);
     JtJ = Jaco * Jaco';
     
     %迭求解逆运动学
@@ -111,7 +111,7 @@ robot_modified.teach(theta);
 % 
 % figure();
 % scatter3(x_f(1,:),x_f(2,:),x_f(3,:),5)
-% figure();
-% plot(eplot)
+figure();
+plot(eplot)
 % figure();
 % plot(dqplot)
