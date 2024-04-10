@@ -2,6 +2,20 @@
 
 Common manipulators kinematics demo based on matlab, including forward kinematics, inverse kinematics, Jacobian matrices, etc. The code is abbreviated as it is only used for feasibility checking and will be optimised at a later stage.
 
+------------------------------------------------------
+
+### Version 3.0
+
+gpm_k = 0.015;  	learning_ratio = 0.2; 收敛效果较差，learning_ratio = 0.3时收敛效果极差
+
+gpm_k = 0.015;  	learning_ratio = 0.15; 收敛效果较好
+
+gpm_k = 0.015;  	learning_ratio = 0.08; 收敛速度较慢，增加最大迭代次数后，收敛精度与0.15类似
+
+以上gpm_k对角度限制效果不够
+
+gpm_k = 0.15，能起到较明显作用，但是对其余关节角影响大
+
 ------------------
 
 ### Version 2.1

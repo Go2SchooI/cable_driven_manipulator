@@ -58,8 +58,8 @@ while (norm(e) > max_tol) % 0.0001
         % 将theta5限制在0到pi/2中，梯度下降法若要使H最小，可在梯度取负值或步长取负值
         gradient_H = [0,0,0,0,-(theta(5)-pi/4)/pi/pi*4,0,0,... 
             -(theta(8)-0)/pi/pi*4,0,0,0];
-        gpm_k = 0.015;
-%       gpm_k = lamda * norm(Jaco_pinv * e') / norm((eye(7) - Jaco_pinv * Jaco) * gradient_H');
+%         gpm_k = 0.015;
+        gpm_k = lamda * norm(Jaco_pinv * e') / norm((eye(n) - Jaco_pinv * Jaco) * gradient_H');
         local_opt(:,j) = gpm_k * (eye(n) - Jaco_pinv * Jaco) * gradient_H';
         dq = Jaco_pinv * e' + local_opt(:,j);
     else

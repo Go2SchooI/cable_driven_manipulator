@@ -67,7 +67,7 @@ end
 p_circle = zeros(3,100);
 e_circle = zeros(1,100);
 theta_circle = zeros(7,100);
-for i = 1:88
+for i = 1:100
     p_circle(1,i) = 0.6; 
     p_circle(2,i) = 0.3 * sin(pi/50*i) - 0.2; 
     p_circle(3,i) = 0.3 * cos(pi/50*i); 
@@ -91,18 +91,18 @@ for i = 1:88
 end
 
     [theta,eplot,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
-        cable_driven.offset, p_16, 0.0001, 200, 4);
-    cable_driven.teach(theta);
-    
-        [theta,eplot2,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
         cable_driven.offset, p_16, 0.0001, 200, 1);
+    cable_driven.teach(theta);
+%     
+%         [theta,eplot2,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
+%         cable_driven.offset, p_16, 0.0001, 200, 1);
 
 %% 图形输出
 
-figure();
-plot(eplot)
-hold on
-plot(eplot2)
+% figure();
+% plot(eplot)
+% hold on
+% plot(eplot2)
 % figure();
 % scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
 % figure();
@@ -113,7 +113,7 @@ plot(eplot2)
 % plot(theta_circle(i,:))
 % hold on;
 % end
-% 
-% figure();
-% plot(e_circle)
+
+figure();
+plot(e_circle)
 
