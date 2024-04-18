@@ -4,9 +4,9 @@ clear,clc;
 %% standard DH parameters, revolute, d, a, alhpa, offset
 
 L0 =  Link('revolute', 'd',0,     'a',0,    'alpha',pi/2,   'offset',0,     'standard'); %使机械臂架构与sw相同
-L1 =  Link('revolute', 'd',0.197, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
-L2 =  Link('revolute', 'd',0.122, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
-L3 =  Link('revolute', 'd',0.293, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+L1 =  Link('revolute', 'd',0.143, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+L2 =  Link('revolute', 'd',0.078, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
+L3 =  Link('revolute', 'd',0.291, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
 
 L4 =  Link('revolute', 'd',0,     'a',0.07, 'alpha',0,      'offset',pi/2,  'standard');
 L5 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
@@ -24,7 +24,7 @@ theta_target = zeros(1,11);
 cable_driven.teach(theta_target);
 
 %% 蒙特卡洛法计算工作空间
-N_f = 1; %30000
+N_f = 30000; %30000
 x_f = zeros(3,N_f);
 theta_f = zeros(1,cable_driven.n);
 
@@ -34,6 +34,7 @@ for k = 1:N_f
     end
     
     theta_f(1) = 0;
+    theta_f(4) = - pi/4 + 2 * pi/4 * rand();
     
     theta_f(5) = pi/2 * rand();
     theta_f(6) = theta_f(5);
@@ -92,7 +93,7 @@ end
 
     [theta,eplot,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
         cable_driven.offset, p_16, 0.0001, 200, 1);
-    cable_driven.teach(theta);
+%     cable_driven.teach(theta);
 %     
 %         [theta,eplot2,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
 %         cable_driven.offset, p_16, 0.0001, 200, 1);
@@ -103,8 +104,8 @@ end
 % plot(eplot)
 % hold on
 % plot(eplot2)
-% figure();
-% scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
+figure();
+scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
 % figure();
 % scatter3(p_circle(1,:),p_circle(2,:),p_circle(3,:),3)
 
@@ -114,6 +115,6 @@ end
 % hold on;
 % end
 
-figure();
-plot(e_circle)
+% figure();
+% plot(e_circle)
 
