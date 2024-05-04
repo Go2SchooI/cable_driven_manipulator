@@ -14,9 +14,9 @@ L5 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'sta
 L6 =  Link('revolute', 'd',0.24,  'a',0,    'alpha',pi/2,   'offset',0,     'standard');
 L7 =  Link('revolute', 'd',0,     'a',0.095,'alpha',0,      'offset',pi/2,  'standard');
 L8 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
-L9 =  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
+L9 =  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
 
-L10=  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
+L10=  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
 
 cable_driven = SerialLink([L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10], 'name', 'cdm'); 
 % cable_driven.display();  
@@ -24,7 +24,7 @@ theta_target = zeros(1,11);
 cable_driven.teach(theta_target);
 
 %% 蒙特卡洛法计算工作空间
-N_f = 30000; %30000
+N_f = 50000; %30000
 x_f = zeros(3,N_f);
 theta_f = zeros(1,cable_driven.n);
 
@@ -100,15 +100,33 @@ end
 
 %% 图形输出
 
+% 收敛对比
 % figure();
 % plot(eplot)
 % hold on
 % plot(eplot2)
+
+% 工作空间
 figure();
-scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
+scatter3(x_f(1,:),x_f(2,:),x_f(3,:),2)
+xlabel('X(mm)')
+ylabel('Y(mm)')
+zlabel('Z(mm)')
+figure();
+scatter(x_f(1,:),x_f(2,:),3)
+xlabel('X(mm)')
+ylabel('Y(mm)')
+figure();
+scatter(x_f(1,:),x_f(3,:),3)
+xlabel('X(mm)')
+ylabel('Z(mm)')
+figure();
+scatter(x_f(2,:),x_f(3,:),3)
+xlabel('Y(mm)')
+ylabel('Z(mm)')
+% 轨迹
 % figure();
 % scatter3(p_circle(1,:),p_circle(2,:),p_circle(3,:),3)
-
 % figure();
 % for i = 1:7
 % plot(theta_circle(i,:))

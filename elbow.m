@@ -19,13 +19,19 @@ end
 
 a = (dtheta_mo(N) - dtheta_mo(1)) / 180;
 b = dtheta_mo(1);
-dl_linear = a * theta_el + b;
+dm_linear = a * theta_el + b;
 
-figure();
-plot(theta_el,dtheta_mo);
+figure(1)
 hold on
-plot(theta_el,dl_linear);
+plot(theta_el,dtheta_mo,'linewidth',1.5);
+plot(theta_el,dm_linear,'r--','linewidth',1.5);
+hold off
+legend('电机角度变化','角度线性变化')
+xlabel('肘部关节角度（°）')
+ylabel('肘部驱动电机角度（°）')
+grid on
 
-figure();
-plot(theta_el,dL);
+
+figure(2);
+plot(theta_el,dtheta_mo-dm_linear,'linewidth',1.5);
 
