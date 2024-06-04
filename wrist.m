@@ -15,6 +15,9 @@ value3 = zeros(1,N);
 max_r = 0;
 min_r = 100;
 
+max_k = 0;
+min_k = 0;
+
 for k = 1:N
      phi(k) = k * 45 / N;
 %     value1 = ho * ho;
@@ -33,13 +36,21 @@ for k = 1:N
     r(k) = numerator(k) / denominator(k);
     if(r(k) > max_r)
         max_r = r(k);
+        max_k = k;
     end
     
     if(r(k) < min_r)
         min_r = r(k);
+        min_k = k;
     end    
 end
 
 max_error = max_r - min_r;
 figure();
-plot(phi,r)
+plot(phi,r,'linewidth',1.5)
+xlabel('𝜓（°）')
+ylabel('𝑟(𝜓)（mm）')
+grid on
+
+text(phi(max_k),r(max_k),num2str(r(max_k)))
+text(phi(min_k),r(min_k),num2str(r(min_k)))
