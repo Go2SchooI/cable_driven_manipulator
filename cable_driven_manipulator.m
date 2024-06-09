@@ -3,24 +3,10 @@ clear,clc;
 
 %% standard DH parameters, revolute, d, a, alhpa, offset
 
-L0 =  Link('revolute', 'd',0,     'a',0,    'alpha',pi/2,   'offset',0,     'standard'); %使机械臂架构与sw相同
-L1 =  Link('revolute', 'd',0.143, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
-L2 =  Link('revolute', 'd',0.078, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
-L3 =  Link('revolute', 'd',0.291, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
-
-L4 =  Link('revolute', 'd',0,     'a',0.07, 'alpha',0,      'offset',pi/2,  'standard');
-L5 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
-
-L6 =  Link('revolute', 'd',0.24,  'a',0,    'alpha',pi/2,   'offset',0,     'standard');
-L7 =  Link('revolute', 'd',0,     'a',0.095,'alpha',0,      'offset',pi/2,  'standard');
-L8 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
-L9 =  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
-
-L10=  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
 % L0 =  Link('revolute', 'd',0,     'a',0,    'alpha',pi/2,   'offset',0,     'standard'); %使机械臂架构与sw相同
-% L1 =  Link('revolute', 'd',0.197, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
-% L2 =  Link('revolute', 'd',0.122, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
-% L3 =  Link('revolute', 'd',0.293, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+% L1 =  Link('revolute', 'd',0.143, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+% L2 =  Link('revolute', 'd',0.078, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
+% L3 =  Link('revolute', 'd',0.291, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
 % 
 % L4 =  Link('revolute', 'd',0,     'a',0.07, 'alpha',0,      'offset',pi/2,  'standard');
 % L5 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
@@ -28,9 +14,23 @@ L10=  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'sta
 % L6 =  Link('revolute', 'd',0.24,  'a',0,    'alpha',pi/2,   'offset',0,     'standard');
 % L7 =  Link('revolute', 'd',0,     'a',0.095,'alpha',0,      'offset',pi/2,  'standard');
 % L8 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
-% L9 =  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
+% L9 =  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
 % 
-% L10=  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
+% L10=  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
+L0 =  Link('revolute', 'd',0,     'a',0,    'alpha',pi/2,   'offset',0,     'standard'); %使机械臂架构与sw相同
+L1 =  Link('revolute', 'd',0.197, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+L2 =  Link('revolute', 'd',0.122, 'a',0,    'alpha',-pi/2,  'offset',pi/2,  'standard');
+L3 =  Link('revolute', 'd',0.293, 'a',0,    'alpha',pi/2,   'offset',pi/2,  'standard');
+
+L4 =  Link('revolute', 'd',0,     'a',0.07, 'alpha',0,      'offset',pi/2,  'standard');
+L5 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
+
+L6 =  Link('revolute', 'd',0.24,  'a',0,    'alpha',pi/2,   'offset',0,     'standard');
+L7 =  Link('revolute', 'd',0,     'a',0.095,'alpha',0,      'offset',pi/2,  'standard');
+L8 =  Link('revolute', 'd',0,     'a',0,    'alpha',-pi/2,  'offset',-pi/2, 'standard');
+L9 =  Link('revolute', 'd',0,     'a',0,    'alpha',0,      'offset',0,     'standard');
+
+L10=  Link('revolute', 'd',0.04,  'a',0,    'alpha',0,      'offset',0,     'standard');
 
 cable_driven = SerialLink([L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10], 'name', 'cdm'); 
 % cable_driven.display();  
@@ -86,6 +86,9 @@ iter_circle = zeros(1,100);
 theta_circle = zeros(7,100);
 theta = zeros(1,cable_driven.n);
 
+plot_theta = zeros(100,cable_driven.n);
+j_rank = zeros(1,100);
+
 for i = 1:100
     p_circle(1,i) = 0.6; 
     p_circle(2,i) = 0.4 * sin(pi/50*i) - 0.2; 
@@ -96,10 +99,12 @@ for i = 1:100
             0 0 1 p_circle(3,i)
             0 0 0 1];
         
-    [iter,theta,eplot,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
+    [jaco,iter,theta,eplot,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
         cable_driven.offset,p_16, 0.00003,650, 3);
     e_circle(i) = e_final;
     iter_circle(i) = iter;
+    j_rank(i) = rank(jaco);
+    plot_theta(i,:) = theta;
     
     theta_circle(1,i) = rad2deg(theta(2));
     theta_circle(2,i) = rad2deg(theta(3));
@@ -108,6 +113,10 @@ for i = 1:100
     theta_circle(5,i) = rad2deg(theta(7));
     theta_circle(6,i) = rad2deg(theta(8));
     theta_circle(7,i) = rad2deg(theta(11));
+    
+%     测试
+    jacobian = jacob0(cable_driven,theta);
+    jj_rank = rank(jacobian);
 end
 
 %     [theta,eplot,e_final] = c_ikine(cable_driven.n, cable_driven.alpha, cable_driven.a, cable_driven.d,...
@@ -129,13 +138,16 @@ end
 % scatter3(x_f(1,:),x_f(2,:),x_f(3,:),3)
 
 % 轨迹跟踪
-cable_driven.teach(theta);
-xlabel('X(m)')
-ylabel('Y(m)')
-zlabel('Z(m)')
-hold on;
-scatter3(p_circle(1,:),p_circle(2,:),p_circle(3,:),3)
-hold off;
+% cable_driven.teach(theta);
+% hold on;
+% scatter3(p_circle(1,:),p_circle(2,:),p_circle(3,:),3)
+% hold off;
+
+% cable_driven.plot(plot_theta,'trail','r','movie','trail.gif');
+% xlabel('X(m)')
+% ylabel('Y(m)')
+% zlabel('Z(m)')
+
 
 % 轨迹展示
 figure();

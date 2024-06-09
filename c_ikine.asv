@@ -1,4 +1,4 @@
-function[Jaco,j,theta,eplot,e_final] = c_ikine(n,alpha,a,d,offset,p_target,max_tol,max_iter,method)
+function[jaco,j,theta,eplot,e_final] = c_ikine(n,alpha,a,d,offset,p_target,max_tol,max_iter,method)
 
 x_target = zeros(1,3);
 x_ = zeros(1,3);
@@ -45,7 +45,6 @@ while (norm(e) > max_tol) % 0.0001
    
    %雅可比矩阵计算
     Jaco = jacobe(theta, n, alpha, a, d, offset);
-%     Jaco(:,1) = 0;
 %     Jaco = jacob0(robot,theta); % robotics tool 
     JtJ = Jaco * Jaco';
     
