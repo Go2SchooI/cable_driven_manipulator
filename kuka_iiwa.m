@@ -70,8 +70,8 @@ while (norm(e) > 0.0001)
             Jaco_dls = Jaco' * pinv(JtJ + lamda * lamda * eye(6));
             dq = Jaco_dls * e';
         elseif(use_GPM)
-%             Jaco_pinv = Jaco' * pinv(JtJ);   
-            Jaco_pinv = Jaco' * pinv(JtJ + lamda * lamda * eye(6));
+            Jaco_pinv = Jaco' * pinv(JtJ);   
+%             Jaco_pinv = Jaco' * pinv(JtJ + lamda * lamda * eye(6));
             
             % assume theta5 has max as pi/2 and min as pi/3
             gradient_H = [0 0 0 0 -(theta(5)-5/12*pi)/pi/pi*36 0 0];
@@ -92,7 +92,8 @@ while (norm(e) > 0.0001)
 end 
 
 thetadeg = rad2deg(theta);
-robot_modified.teach(theta);
+disp(eye(7) - Jaco_pinv * Jaco);
+% robot_modified.teach(theta);
 %% 蒙特卡洛法计算工作空间
 % 
 % x_f = zeros(3,50000);

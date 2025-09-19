@@ -4,6 +4,10 @@ Common manipulators kinematics demo based on matlab, including forward kinematic
 
 ------------------------------------------------------
 
+### Version 4.0
+
+​	<img src="https://cdn.jsdelivr.net/gh/Go2SchooI/blogImg@main/img/trail.gif" alt="trail" style="zoom:50%;" />
+
 ### Version 3.0
 
 gpm_k = 0.015;  	learning_ratio = 0.2; 收敛效果较差，learning_ratio = 0.3时收敛效果极差
